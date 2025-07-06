@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTalk - העלאת שאלה חדשה</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            direction: rtl;
+        }
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+        }
+        header h1 {
+            font-size: 28px;
+            color: #003d7a;
+            margin: 0;
+            font-weight: bold;
+        }
+        .container {
+            margin: 30px auto;
+            width: 80%;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .question-input {
+            margin-bottom: 30px;
+        }
+        .question-input label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #003d7a;
+        }
+        .question-input textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        .question-input textarea:focus {
+            border-color: #007bff;
+            background-color: #fff;
+        }
+        .placeholder-text {
+            color: #666;
+            font-size: 14px;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        .tags-section {
+            margin-bottom: 30px;
+        }
+        .tags-section h3 {
+            color: #003d7a;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .tag {
+            padding: 8px 16px;
+            background-color: #fff;
+            border: 2px solid #007bff;
+            border-radius: 25px;
+            color: #007bff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        .tag:hover {
+            background-color: #f0f8ff;
+        }
+        .tag.selected {
+            background-color: #007bff;
+            color: white;
+        }
+        .file-upload {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .file-upload-btn {
+            padding: 12px 24px;
+            background-color: #fff;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .file-upload-btn:hover {
+            background-color: #f0f8ff;
+        }
+        .file-upload-text {
+            color: #666;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .cancel-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            color: #666;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .cancel-btn:hover {
+            background-color: #e9ecef;
+        }
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 50%;
+            transform: translateX(50%);
+            background-color: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .file-input {
+            display: none;
+        }
+        .home-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .home-icon:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>העלאת שאלה חדשה</h1>
+    </header>
+    
+    <div class="success-message" id="successMessage">
+        השאלה פורסמה בהצלחה!
+    </div>
+    
+    <div class="container">
+        <div class="question-input">
+            <label for="questionText">השאלה שלך:</label>
+            <textarea id="questionText" placeholder="הקלידו כאן את השאלה שלכם..."></textarea>
+            <div class="placeholder-text">
+                הקלידו כאן את השאלה שלכם בצורה ברורה ומפורטת ככל האפשר, כך תקבלו תשובות מדויקות יותר
+            </div>
+            <div class="error-message" id="questionError">
+                אנא הזינו את השאלה שלכם
+            </div>
+        </div>
+        
+        <div class="tags-section">
+            <h3>בחירת תגיות מקצוע:</h3>
+            <div class="tags-container">
+                <div class="tag" onclick="toggleTag(this)">מתמטיקה</div>
+                <div class="tag" onclick="toggleTag(this)">היסטוריה</div>
+                <div class="tag" onclick="toggleTag(this)">פיזיקה</div>
+                <div class="tag" onclick="toggleTag(this)">כימיה</div>
+                <div class="tag" onclick="toggleTag(this)">ביולוגיה</div>
+                <div class="tag" onclick="toggleTag(this)">ספרות</div>
+                <div class="tag" onclick="toggleTag(this)">אנגלית</div>
+                <div class="tag" onclick="toggleTag(this)">גיאוגרפיה</div>
+                <div class="tag" onclick="toggleTag(this)">מדעי המחשב</div>
+                <div class="tag" onclick="toggleTag(this)">אחר</div>
+            </div>
+        </div>
+        
+        <div class="file-upload">
+            <button class="file-upload-btn" onclick="document.getElementById('fileInput').click()">
+                📁 📷 הוספת קובץ או תמונה (אופציונלי)
+            </button>
+            <input type="file" id="fileInput" class="file-input" accept="image/*,.pdf,.doc,.docx" onchange="handleFileSelect(this)">
+            <div class="file-upload-text">
+                ניתן לצרף תמונות, PDF או מסמכי Word כחומר עזר לשאלה
+            </div>
+        </div>
+        
+        <button class="submit-btn" id="submitBtn" onclick="submitQuestion()">
+            פרסם שאלה
+        </button>
+        
+        <button class="cancel-btn" onclick="cancelAndReturn()">
+            ביטול וחזרה
+        </button>
+    </div>
+
+    <!-- כפתור בית צף -->
+    <button class="home-icon" onclick="navigateToHome()" title="חזרה לדף הבית">
+        🏠
+    </button>
+
+    <button class="home-icon" onclick="window.location.href='site.html'">
+        🏠
+    </button>
+
+    <script>
+        function toggleTag(element) {
+            element.classList.toggle('selected');
+        }
+        
+        function handleFileSelect(input) {
+            if (input.files && input.files[0]) {
+                const fileName = input.files[0].name;
+                const fileBtn = document.querySelector('.file-upload-btn');
+                fileBtn.innerHTML = `📁 ${fileName}`;
+            }
+        }
+        
+        function checkFormValidity() {
+            const questionText = document.getElementById('questionText').value.trim();
+            const submitBtn = document.getElementById('submitBtn');
+            const questionError = document.getElementById('questionError');
+            
+            if (questionText.length > 0) {
+                submitBtn.style.cursor = 'pointer';
+                questionError.style.display = 'none';
+            } else {
+                submitBtn.style.cursor = 'not-allowed';
+            }
+        }
+        
+        function submitQuestion() {
+            const questionText = document.getElementById('questionText').value.trim();
+            const questionError = document.getElementById('questionError');
+            
+            if (questionText.length === 0) {
+                questionError.style.display = 'block';
+                return;
+            }
+            
+            // הצגת הודעת הצלחה
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            
+            // העברה למסך הבית אחרי 2 שניות
+            setTimeout(() => {
+                window.location.href = 'site.html';
+            }, 2000);
+        }
+        
+        function cancelAndReturn() {
+            window.location.href = 'site.html';
+        }
+        
+        function navigateToHome() {
+            window.location.href = 'site.html';
+        }
+        
+        // בדיקת תוקף הטופס בכל הקלדה
+        document.getElementById('questionText').addEventListener('input', checkFormValidity);
+        
+        // בדיקה ראשונית בטעינת הדף
+        document.addEventListener('DOMContentLoaded', checkFormValidity);
+    </script>
+</body>
+</html>

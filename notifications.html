@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTalk - התראות</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            direction: rtl;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+        }
+        header h1 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+        .back-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #007bff;
+            padding: 10px;
+        }
+        .back-button:hover {
+            color: #0056b3;
+        }
+        .notifications-container {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+        }
+        .notification {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .notification.new {
+            border-left: 4px solid #007bff;
+            background-color: #f8f9ff;
+        }
+        .notification-icon {
+            font-size: 20px;
+            margin-left: 15px;
+            color: #007bff;
+        }
+        .notification-content {
+            flex: 1;
+        }
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .notification-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .notification-time {
+            color: #999;
+            font-size: 12px;
+        }
+        .no-notifications {
+            text-align: center;
+            color: #666;
+            font-size: 18px;
+            padding: 40px;
+        }
+        .home-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="back-button" onclick="location.href='site.html'">← חזור</button>
+        <h1>התראות</h1>
+        <div></div>
+    </header>
+
+    <div class="notifications-container">
+        <div class="notification new">
+            <div class="notification-icon">📚</div>
+            <div class="notification-content">
+                <div class="notification-title">תשובה חדשה לשאלה שלך</div>
+                <div class="notification-text">מישהו ענה על השאלה שלך על נוסחת פיתגורס</div>
+                <div class="notification-time">לפני 2 שעות</div>
+            </div>
+        </div>
+        
+        <div class="notification new">
+            <div class="notification-icon">👤</div>
+            <div class="notification-content">
+                <div class="notification-title">עוקב חדש</div>
+                <div class="notification-text">יוסי כהן החל לעקוב אחריך</div>
+                <div class="notification-time">לפני 5 שעות</div>
+            </div>
+        </div>
+        
+        <div class="notification new">
+            <div class="notification-icon">⭐</div>
+            <div class="notification-content">
+                <div class="notification-title">השאלה שלך קיבלה לייק</div>
+                <div class="notification-text">השאלה שלך על המהפכה הצרפתית קיבלה 10 לייקים</div>
+                <div class="notification-time">לפני יום</div>
+            </div>
+        </div>
+        
+        <div class="notification">
+            <div class="notification-icon">🔔</div>
+            <div class="notification-content">
+                <div class="notification-title">עדכון מערכת</div>
+                <div class="notification-text">הוספנו תכונות חדשות לאתר</div>
+                <div class="notification-time">לפני 3 ימים</div>
+            </div>
+        </div>
+    </div>
+
+    <button class="home-button" onclick="location.href='site.html'">🏠</button>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTalk - מסך הבית</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            direction: rtl;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+        header h1 {
+            font-size: 24px;
+            color: #333;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .notification-bell {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #007bff;
+        }
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-section {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #333;
+            font-size: 14px;
+        }
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #007bff;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .search-bar {
+            margin: 20px auto;
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            outline: none;
+            background-color: #fff;
+        }
+        .search-bar button {
+            margin-left: 10px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+        .buttons {
+            text-align: center;
+            margin: 20px;
+        }
+        .buttons button {
+            margin: 10px;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .buttons .primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .buttons .secondary {
+            background-color: #f8f9fa;
+            color: #007bff;
+            border: 1px solid #007bff;
+        }
+        .recommended {
+            margin: 20px auto;
+            width: 80%;
+        }
+        .recommended h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .recommended .question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            margin-bottom: 10px;
+        }
+        .recommended .question button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            gap: 30px;
+        }
+        .footer-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #007bff;
+            font-size: 24px;
+            text-decoration: none;
+        }
+        .footer-icon span {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #666;
+        }
+        .footer-icon:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="profile-section" onclick="location.href='profile.html'">
+            <span>רום זהראלדין</span>
+            <div class="profile-pic">ר</div>
+        </button>
+        <h1>בוקר טוב, רום זהראלדין!</h1>
+        <button class="notification-bell" onclick="location.href='notifications.html'">
+            🔔
+            <span class="notification-count">3</span>
+        </button>
+    </header>
+    <div class="search-bar">
+        <input type="text" placeholder="מה תרצו לשאול היום?">
+        <button disabled>חפש</button>
+    </div>
+    <div class="buttons">
+        <button class="primary" onclick="location.href='new_question.html'">העלאת שאלה חדשה</button>
+        <button class="secondary" onclick="location.href='answer_question.html'">צפייה בשאלות אחרונות</button>
+    </div>
+    <div class="recommended">
+        <h2>שאלות מומלצות</h2>
+        <div class="question">
+            <span>מהי נוסחת פיתגורס?</span>
+            <button onclick="location.href='answer_question.html'">צפייה</button>
+        </div>
+        <div class="question">
+            <span>מהי משמעות המהפכה הצרפתית?</span>
+            <button onclick="location.href='answer_question.html'">צפייה</button>
+        </div>
+    </div>
+    <footer>
+        <button class="footer-icon" onclick="location.href='about.html'">
+            ℹ️
+            <span>אודות</span>
+        </button>
+        <button class="footer-icon" onclick="location.href='contact.html'">
+            ✉️
+            <span>צור קשר</span>
+        </button>
+        <button class="footer-icon" onclick="location.href='settings.html'">
+            ⚙️
+            <span>הגדרות</span>
+        </button>
+    </footer>
+</body>
+</html>

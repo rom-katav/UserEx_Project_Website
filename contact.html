@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTalk - צור קשר</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            direction: rtl;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+        }
+        header h1 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+        .back-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #007bff;
+            padding: 10px;
+        }
+        .back-button:hover {
+            color: #0056b3;
+        }
+        .content {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .contact-methods {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .contact-method {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .contact-method:hover {
+            background-color: #e9ecef;
+        }
+        .contact-icon {
+            font-size: 24px;
+            margin-left: 15px;
+            color: #007bff;
+        }
+        .contact-info h3 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        .contact-info p {
+            margin: 0;
+            color: #666;
+        }
+        .contact-form {
+            margin-top: 30px;
+        }
+        .contact-form h3 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .submit-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+        .home-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="back-button" onclick="location.href='site.html'">← חזור</button>
+        <h1>צור קשר</h1>
+        <div></div>
+    </header>
+
+    <div class="content">
+        <div class="contact-methods">
+            <div class="contact-method" onclick="window.location.href='mailto:support@edutalk.co.il'">
+                <div class="contact-icon">📧</div>
+                <div class="contact-info">
+                    <h3>אימייל</h3>
+                    <p>support@edutalk.co.il</p>
+                </div>
+            </div>
+            
+            <div class="contact-method" onclick="window.open('tel:+972-3-1234567', '_self')">
+                <div class="contact-icon">📞</div>
+                <div class="contact-info">
+                    <h3>טלפון</h3>
+                    <p>03-1234567</p>
+                </div>
+            </div>
+            
+            <div class="contact-method">
+                <div class="contact-icon">📍</div>
+                <div class="contact-info">
+                    <h3>כתובת</h3>
+                    <p>רחוב הטכניון 32, חיפה</p>
+                </div>
+            </div>
+            
+            <div class="contact-method">
+                <div class="contact-icon">⏰</div>
+                <div class="contact-info">
+                    <h3>שעות פעילות</h3>
+                    <p>א'-ה', 09:00-17:00</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h3>שלח לנו הודעה</h3>
+            <form>
+                <div class="form-group">
+                    <label for="name">שם מלא:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">אימייל:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">נושא:</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">הודעה:</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-button">שלח הודעה</button>
+            </form>
+        </div>
+    </div>
+
+    <button class="home-button" onclick="location.href='site.html'">🏠</button>
+</body>
+</html>

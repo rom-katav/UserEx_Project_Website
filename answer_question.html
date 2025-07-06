@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTalk - צפייה בשאלה ומענה</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            direction: rtl;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #f8f9fa;
+            color: #666;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .back-btn:hover {
+            background-color: #e9ecef;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 50%;
+            transform: translateX(50%);
+            background-color: #17a2b8;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .container {
+            margin: 60px auto 20px;
+            width: 85%;
+            max-width: 900px;
+        }
+        
+        .question-header {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .question-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .question-author {
+            color: #003d7a;
+            font-weight: bold;
+        }
+        
+        .question-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .tag {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        
+        .guide-text {
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .question-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .attached-files {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .file-icon {
+            background-color: #f0f8ff;
+            border: 1px solid #007bff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #007bff;
+        }
+        .file-icon:hover {
+            background-color: #e6f3ff;
+        }
+        
+        .favorite-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .favorite-btn.active {
+            color: #ffd700;
+        }
+        
+        .answers-section {
+            margin-top: 30px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .answer-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .answer-card.recommended {
+            border: 2px solid #ffd700;
+            background: linear-gradient(to right, #fffbf0, #fff);
+        }
+        
+        .recommended-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background-color: #ffd700;
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .answer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .answer-author {
+            color: #003d7a;
+            font-weight: bold;
+        }
+        
+        .answer-date {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .answer-content {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .answer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .action-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .like-btn {
+            color: #666;
+        }
+        .like-btn.active {
+            color: #007bff;
+        }
+        
+        .star-rating {
+            display: flex;
+            gap: 2px;
+        }
+        
+        .star {
+            color: #ccc;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .star.active {
+            color: #ffd700;
+        }
+        
+        .comment-btn {
+            color: #666;
+        }
+        
+        .comment-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            display: none;
+        }
+        
+        .comment-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        
+        .comment-submit {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .new-answer-section {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        
+        .answer-input {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            resize: vertical;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+        
+        .answer-input:focus {
+            border-color: #007bff;
+            background-color: #fff;
+        }
+        
+        .answer-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .file-upload-btn {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .submit-answer-btn {
+            background-color: #ccc;
+            color: #666;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: not-allowed;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-answer-btn.active {
+            background-color: #003d7a;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .feedback-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            display: none;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .home-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .home-icon:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="goBack()">
+        ← חזרה לשאלות
+    </button>
+    
+    <div class="notification" id="notification"></div>
+    
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="feedback-modal" id="feedbackModal">
+        <h3>בחר דירוג:</h3>
+        <div class="star-rating" id="modalStarRating">
+            <span class="star" onclick="setRating(1)">⭐</span>
+            <span class="star" onclick="setRating(2)">⭐</span>
+            <span class="star" onclick="setRating(3)">⭐</span>
+            <span class="star" onclick="setRating(4)">⭐</span>
+            <span class="star" onclick="setRating(5)">⭐</span>
+        </div>
+        <button onclick="closeModal()" style="margin-top: 15px; padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">אישור</button>
+    </div>
+    
+    <div class="container">
+        <div class="question-header">
+            <button class="favorite-btn" onclick="toggleFavorite(this)">🚩</button>
+            
+            <div class="question-title">מהי נוסחת פיתגורס ומתי משתמשים בה?</div>
+            
+            <div class="question-meta">
+                <span class="question-author">יוסי כהן</span>
+                <span class="question-date">פורסם ב-02/07/2025</span>
+            </div>
+            
+            <div class="question-tags">
+                <span class="tag">מתמטיקה</span>
+                <span class="tag">כיתה י'1</span>
+            </div>
+            
+            <div class="guide-text">
+                האם נתקלת בשאלה דומה? עיין בתשובות הקיימות או הוסף תשובה משלך
+            </div>
+        </div>
+        
+        <div class="question-content">
+            <p>שלום, אני לומד עכשיו על משולשים ישרי זווית ושמעתי על נוסחת פיתגורס. אני מבין שזה קשור לצלעות של המשולש אבל לא בדיוק הבנתי איך זה עובד. מישהו יכול להסביר לי בצורה פשוטה מהי הנוסחה ומתי אני אשתמש בה?</p>
+            
+            <div class="attached-files">
+                <div class="file-icon" onclick="openFile('triangle.jpg')">
+                    📷 תמונת משולש
+                </div>
+                <div class="file-icon" onclick="openFile('exercise.pdf')">
+                    📄 תרגיל בית
+                </div>
+            </div>
+        </div>
+        
+        <div class="answers-section">
+            <h2 class="section-title">תשובות (3)</h2>
+            
+            <div class="answer-card recommended">
+                <div class="recommended-badge">⭐ תשובה מומלצת</div>
+                
+                <div class="answer-header">
+                    <span class="answer-author">מורה רחל לוי</span>
+                    <span class="answer-date">03/07/2025</span>
+                </div>
+                
+                <div class="answer-content">
+                    שלום יוסי! נוסחת פיתגורס היא אחת הנוסחאות החשובות ביותר במתמטיקה. הנוסחה אומרת: a² + b² = c²
+                    
+                    כאשר:
+                    - a ו-b הם האורכים של הצלעות הקצרות (הניצבות)
+                    - c הוא האורך של הצלע הארוכה (היתר)
+                    
+                    משתמשים בה כדי למצוא אורך צלע במשולש ישר זווית כשאנחנו יודעים את שתי הצלעות האחרות.
+                </div>
+                
+                <div class="answer-actions">
+                    <div class="action-group">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)" title="לייק">
+                            👍
+                        </button>
+                        <div class="star-rating">
+                            <span class="star active">⭐</span>
+                            <span class="star active">⭐</span>
+                            <span class="star active">⭐</span>
+                            <span class="star active">⭐</span>
+                            <span class="star active">⭐</span>
+                        </div>
+                    </div>
+                    <button class="action-btn comment-btn" onclick="toggleComments(this)" title="הוסף תגובה">
+                        💬
+                    </button>
+                </div>
+                
+                <div class="comment-section">
+                    <input type="text" class="comment-input" placeholder="הוסף תגובה קצרה (אופציונלי)">
+                    <button class="comment-submit">שלח תגובה</button>
+                </div>
+            </div>
+            
+            <div class="answer-card">
+                <div class="answer-header">
+                    <span class="answer-author">דני גולדברג</span>
+                    <span class="answer-date">03/07/2025</span>
+                </div>
+                
+                <div class="answer-content">
+                    דרך פשוטה לזכור: אם יש לך מלבן ואתה רוצה לחתוך אותו באלכסון, נוסחת פיתגורס תעזור לך לחשב כמה ארוך האלכסון הזה! זה מאוד שימושי בבנייה ובחיי היום יום.
+                </div>
+                
+                <div class="answer-actions">
+                    <div class="action-group">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            👍
+                        </button>
+                        <div class="star-rating">
+                            <span class="star" onclick="openRatingModal(this)">⭐</span>
+                            <span class="star" onclick="openRatingModal(this)">⭐</span>
+                            <span class="star" onclick="openRatingModal(this)">⭐</span>
+                            <span class="star" onclick="openRatingModal(this)">⭐</span>
+                            <span class="star" onclick="openRatingModal(this)">⭐</span>
+                        </div>
+                    </div>
+                    <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                        💬
+                    </button>
+                </div>
+                
+                <div class="comment-section">
+                    <input type="text" class="comment-input" placeholder="הוסף תגובה קצרה (אופציונלי)">
+                    <button class="comment-submit">שלח תגובה</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="new-answer-section">
+            <h3 class="section-title">הוסף תשובה שלך</h3>
+            
+            <textarea id="answerInput" class="answer-input" placeholder="הקלידו כאן את התשובה שלכם בצורה מפורטת וברורה"></textarea>
+            
+            <div class="answer-tools">
+                <button class="file-upload-btn" onclick="document.getElementById('answerFileInput').click()">
+                    📁 📷 צרפו קובץ או תמונה (לא חובה)
+                </button>
+                <input type="file" id="answerFileInput" class="file-input" accept="image/*,.pdf,.doc,.docx">
+            </div>
+            
+            <button class="submit-answer-btn" id="submitAnswerBtn" onclick="submitAnswer()">
+                שליחת תשובה
+            </button>
+            
+            <div class="error-message" id="answerError">
+                לא ניתן לשלוח תשובה ריקה
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = 'site.html';
+        }
+        
+        function toggleFavorite(btn) {
+            btn.classList.toggle('active');
+            const isFavorite = btn.classList.contains('active');
+            showNotification(isFavorite ? 'השאלה נשמרה במועדפים!' : 'השאלה הוסרה מהמועדפים');
+        }
+        
+        function toggleLike(btn) {
+            btn.classList.toggle('active');
+            const isLiked = btn.classList.contains('active');
+            showNotification(isLiked ? 'עזרת לחבר לקהילה!' : '');
+        }
+        
+        function toggleComments(btn) {
+            const commentSection = btn.closest('.answer-card').querySelector('.comment-section');
+            const isVisible = commentSection.style.display === 'block';
+            commentSection.style.display = isVisible ? 'none' : 'block';
+        }
+        
+        function openRatingModal(starElement) {
+            document.getElementById('modalOverlay').style.display = 'block';
+            document.getElementById('feedbackModal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.getElementById('feedbackModal').style.display = 'none';
+            showNotification('תודה על הדירוג!');
+        }
+        
+        function setRating(rating) {
+            const stars = document.querySelectorAll('#modalStarRating .star');
+            stars.forEach((star, index) => {
+                star.classList.toggle('active', index < rating);
+            });
+        }
+        
+        function openFile(filename) {
+            showNotification(`פותח קובץ: ${filename}`);
+        }
+        
+        function checkAnswerValidity() {
+            const answerText = document.getElementById('answerInput').value.trim();
+            const submitBtn = document.getElementById('submitAnswerBtn');
+            const errorMsg = document.getElementById('answerError');
+            
+            if (answerText.length > 0) {
+                submitBtn.classList.add('active');
+                errorMsg.style.display = 'none';
+            } else {
+                submitBtn.classList.remove('active');
+            }
+        }
+        
+        function submitAnswer() {
+            const answerText = document.getElementById('answerInput').value.trim();
+            const errorMsg = document.getElementById('answerError');
+            
+            if (answerText.length === 0) {
+                errorMsg.style.display = 'block';
+                return;
+            }
+            
+            showNotification('תשובתך פורסמה בהצלחה!');
+            
+            // איפוס הטופס
+            document.getElementById('answerInput').value = '';
+            checkAnswerValidity();
+            
+            // כאן אפשר להוסיף את התשובה לרשימה
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        function navigateToHome() {
+            window.location.href = 'site.html';
+        }
+        
+        // בדיקת תוקף התשובה בזמן אמת
+        document.getElementById('answerInput').addEventListener('input', checkAnswerValidity);
+        
+        // אתחול בטעינת הדף
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAnswerValidity();
+            
+            // הדמיית התראה על תשובה חדשה
+            setTimeout(() => {
+                showNotification('תשובה חדשה נוספה!');
+            }, 5000);
+        });
+    </script>
+
+    <!-- כפתור בית צף -->
+    <button class="home-icon" onclick="navigateToHome()" title="חזרה לדף הבית">
+        🏠
+    </button>
+</body>
+</html>

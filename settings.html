@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTalk - הגדרות</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            direction: rtl;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+        }
+        header h1 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+        .back-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #007bff;
+            padding: 10px;
+        }
+        .back-button:hover {
+            color: #0056b3;
+        }
+        .content {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+        }
+        .settings-section {
+            background-color: #fff;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+        }
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        .setting-info {
+            flex: 1;
+        }
+        .setting-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .setting-description {
+            color: #666;
+            font-size: 14px;
+        }
+        .setting-control {
+            margin-right: 15px;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background-color: #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .toggle-switch.active {
+            background-color: #007bff;
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            top: 2px;
+            right: 2px;
+            transition: transform 0.3s;
+        }
+        .toggle-switch.active::after {
+            transform: translateX(-26px);
+        }
+        .dropdown {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            cursor: pointer;
+        }
+        .button-setting {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button-setting:hover {
+            background-color: #0056b3;
+        }
+        .button-setting.danger {
+            background-color: #dc3545;
+        }
+        .button-setting.danger:hover {
+            background-color: #c82333;
+        }
+        .home-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="back-button" onclick="location.href='site.html'">← חזור</button>
+        <h1>הגדרות</h1>
+        <div></div>
+    </header>
+
+    <div class="content">
+        <div class="settings-section">
+            <div class="section-header">התראות</div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-title">התראות דחיפה</div>
+                    <div class="setting-description">קבל התראות על תשובות חדשות לשאלות שלך</div>
+                </div>
+                <div class="setting-control">
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-title">התראות אימייל</div>
+                    <div class="setting-description">קבל עדכונים באימייל על פעילות באתר</div>
+                </div>
+                <div class="setting-control">
+                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="section-header">פרטיות</div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-title">פרופיל ציבורי</div>
+                    <div class="setting-description">אפשר לאחרים לראות את הפרופיל שלך</div>
+                </div>
+                <div class="setting-control">
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-title">הצג שאלות שלי</div>
+                    <div class="setting-description">אפשר לאחרים לראות את השאלות שאתה שואל</div>
+                </div>
+                <div class="setting-control">
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="section-header">כללי</div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-title">שפה</div>
+                    <div class="setting-description">בחר את השפה המועדפת עליך</div>
+                </div>
+                <div class="setting-control">
+                    <select class="dropdown">
+                        <option value="he">עברית</option>
+                        <option value="en">אנגלית</option>
+                        <option value="ar">ערבית</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-title">מצב כהה</div>
+                    <div class="setting-description">החלף למצב כהה לצפייה נוחה יותר</div>
+                </div>
+                <div class="setting-control">
+                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="section-header">חשבון</div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-title">שינוי סיסמה</div>
+                    <div class="setting-description">עדכן את הסיסמה שלך</div>
+                </div>
+                <div class="setting-control">
+                    <button class="button-setting">שנה סיסמה</button>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-title">מחיקת חשבון</div>
+                    <div class="setting-description">מחק את החשבון שלך לצמיתות</div>
+                </div>
+                <div class="setting-control">
+                    <button class="button-setting danger">מחק חשבון</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="home-button" onclick="location.href='site.html'">🏠</button>
+
+    <script>
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

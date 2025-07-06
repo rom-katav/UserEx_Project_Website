@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTalk - פרופיל אישי</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            direction: rtl;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+        }
+        header h1 {
+            font-size: 24px;
+            color: #333;
+        }
+        .container {
+            margin: 20px auto;
+            width: 80%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #007bff;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 40px;
+            border: 3px solid #007bff;
+        }
+        .profile-header h2 {
+            margin: 10px 0;
+            color: #333;
+        }
+        .profile-header p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .rating-stars {
+            color: #ffc107;
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .user-level {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            border-left: 4px solid #007bff;
+        }
+        .user-level .level {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+        .user-level .points {
+            color: #28a745;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .user-level .encouragement {
+            color: #666;
+            font-size: 14px;
+            font-style: italic;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .stats .stat {
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .stats .stat h3 {
+            margin: 5px 0;
+            color: #333;
+        }
+        .stats .stat p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .history {
+            margin-top: 20px;
+        }
+        .history h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .history .item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .history .item p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .cancel {
+            margin-top: 10px;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #f8f9fa;
+            color: #007bff;
+            border: 1px solid #007bff;
+        }
+        .charts-section {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .charts-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .chart-container {
+            margin-bottom: 30px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .chart-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .chart-header h4 {
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+        .chart-header p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 200px;
+            margin: 10px 0;
+        }
+        .chart-wrapper.pie-chart {
+            height: 180px;
+        }
+        @media (max-width: 768px) {
+            .chart-wrapper {
+                overflow-x: auto;
+            }
+            .chart-wrapper canvas {
+                min-width: 400px;
+            }
+        }
+        .home-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .home-icon:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+        footer {
+            background-color: #003d7a;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+        footer h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+        .footer-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .footer-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        .footer-link .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .footer-link .text {
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            .footer-links {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .footer-link {
+                flex-direction: row;
+                justify-content: center;
+                gap: 10px;
+            }
+            .footer-link .icon {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+    <script>
+        function navigateToHome() {
+            window.location.href = 'site.html';
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>פרופיל אישי</h1>
+    </header>
+    <div class="container">
+        <div class="profile-header">
+            <div class="profile-pic">ר</div>
+            <h2>רום זהראלדין</h2>
+            <p>כיתה י'1</p>
+            <div class="rating-stars">
+                ★★★★☆
+            </div>
+            <p>דירוג: 4.5/5</p>
+            
+            <div class="user-level">
+                <div class="level">רמת משתמש: פעיל</div>
+                <div class="points">נקודות: 120</div>
+                <div class="encouragement">המשך לתרום לקהילה והעלה את רמתך!</div>
+            </div>
+        </div>
+        <div class="stats">
+            <div class="stat">
+                <h3>שאלות שנשאלו</h3>
+                <p>12</p>
+            </div>
+            <div class="stat">
+                <h3>תשובות שניתנו</h3>
+                <p>34</p>
+            </div>
+            <div class="stat">
+                <h3>דירוגים חיוביים</h3>
+                <p>56</p>
+            </div>
+        </div>
+        <div class="history">
+            <h3>היסטוריית שאלות ותשובות</h3>
+            <div class="item">
+                <p>שאלה: איך פותרים משוואה ריבועית?</p>
+                <p>תאריך: 01/07/2025</p>
+            </div>
+            <div class="item">
+                <p>תשובה: יש להשתמש בנוסחת השורשים...</p>
+                <p>תאריך: 30/06/2025</p>
+            </div>
+        </div>
+        
+        <div class="charts-section">
+            <h3>גרפי סטטיסטיקות פעילות</h3>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h4>שאלות שנשאלו החודש</h4>
+                    <p>שאלת 8 שאלות החודש!</p>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="questionsChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h4>תשובות שניתנו החודש</h4>
+                    <p>נתת 15 תשובות איכותיות החודש!</p>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="answersChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h4>דירוגים חיוביים שהתקבלו</h4>
+                    <p>קיבלת 23 דירוגים חיוביים החודש!</p>
+                </div>
+                <div class="chart-wrapper pie-chart">
+                    <canvas id="ratingsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <button class="cancel" type="button" onclick="navigateToHome()">חזרה לדף הבית</button>
+    </div>
+
+    <!-- כפתור בית צף -->
+    <button class="home-icon" onclick="navigateToHome()" title="חזרה לדף הבית">
+        🏠
+    </button>
+
+    <!-- פוטר -->
+    <footer>
+        <h3>EduTalk - פלטפורמת לימוד חכמה</h3>
+        <div class="footer-links">
+            <a href="about.html" class="footer-link">
+                <div class="icon">ℹ️</div>
+                <div class="text">אודות</div>
+            </a>
+            <a href="contact.html" class="footer-link">
+                <div class="icon">📞</div>
+                <div class="text">יצירת קשר</div>
+            </a>
+            <a href="settings.html" class="footer-link">
+                <div class="icon">⚙️</div>
+                <div class="text">הגדרות</div>
+            </a>
+        </div>
+        <p>&copy; 2025 EduTalk - כל הזכויות שמורות</p>
+    </footer>
+
+    <script>
+        // גרף עמודות כחול - שאלות שנשאלו החודש
+        const questionsCtx = document.getElementById('questionsChart').getContext('2d');
+        const questionsChart = new Chart(questionsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['שבוע 1', 'שבוע 2', 'שבוע 3', 'שבוע 4'],
+                datasets: [{
+                    label: 'שאלות שנשאלו',
+                    data: [2, 3, 1, 2],
+                    backgroundColor: 'rgba(0, 123, 255, 0.8)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+
+        // גרף עמודות ירוק - תשובות שניתנו החודש
+        const answersCtx = document.getElementById('answersChart').getContext('2d');
+        const answersChart = new Chart(answersCtx, {
+            type: 'bar',
+            data: {
+                labels: ['שבוע 1', 'שבוע 2', 'שבוע 3', 'שבוע 4'],
+                datasets: [{
+                    label: 'תשובות שניתנו',
+                    data: [4, 3, 5, 3],
+                    backgroundColor: 'rgba(40, 167, 69, 0.8)',
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+
+        // גרף עוגה צבעוני - דירוגים חיוביים
+        const ratingsCtx = document.getElementById('ratingsChart').getContext('2d');
+        const ratingsChart = new Chart(ratingsCtx, {
+            type: 'pie',
+            data: {
+                labels: ['דירוגים מתלמידים', 'דירוגים ממורים'],
+                datasets: [{
+                    data: [15, 8],
+                    backgroundColor: [
+                        'rgba(255, 193, 7, 0.8)',
+                        'rgba(220, 53, 69, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(220, 53, 69, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20
+                        }
+                    }
+                }
+            }
+        });
+
+        function navigateToHome() {
+            window.location.href = 'site.html';
+        }
+    </script>
